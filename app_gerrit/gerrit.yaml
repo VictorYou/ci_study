@@ -83,7 +83,7 @@ spec:
         image: busybox:1.30
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c", "--"]
-        args: ["chmod 777 /nfs/*; for dir in etc git db index cache; do rm -rf /nfs/$dir/*; done; for file in gerrit.config secure.config; do wget https://raw.githubusercontent.com/VictorYou/packer_study/build_ci/ci/app_gerrit/$file -O /nfs/etc/$file ; done; for file in gerritadmin.ldif developer1.ldif; do wget https://raw.githubusercontent.com/VictorYou/packer_study/build_ci/ci/app_gerrit/$file -O /nfs/etc/$file; done"]
+        args: ["chmod 777 /nfs/*; for dir in etc git db index cache; do rm -rf /nfs/$dir/*; done; for file in gerrit.config secure.config; do wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file ; done; for file in gerritadmin.ldif developer1.ldif; do wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file; done"]
         volumeMounts:
         - name: gerrit-etc
           mountPath: /nfs/etc
