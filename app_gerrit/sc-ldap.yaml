@@ -1,0 +1,27 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    app: gerrit
+  name: rook-nfs-share-ldap-var
+parameters:
+  exportName: share-ldap-var
+  nfsServerName: rook-nfs-gerrit
+  nfsServerNamespace: rook-nfs
+provisioner: rook.io/nfs-provisioner
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    app: gerrit
+  name: rook-nfs-share-ldap-etc
+parameters:
+  exportName: share-ldap-etc
+  nfsServerName: rook-nfs-gerrit
+  nfsServerNamespace: rook-nfs
+provisioner: rook.io/nfs-provisioner
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

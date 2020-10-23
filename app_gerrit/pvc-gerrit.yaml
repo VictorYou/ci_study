@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-etc
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-git
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-db
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-index
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-cache
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: ci
+  labels:
+    app: pvc-gerrit
+spec:
+  containers:
+  - name: busybox
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh", "-c", "--"]
+    args: ["chmod 777 /nfs/*; cat"]
+    tty: true
+    volumeMounts:
+    - name: gerrit-etc
+      mountPath: /nfs/etc
+    - name: gerrit-git
+      mountPath: /nfs/git
+    - name: gerrit-db
+      mountPath: /nfs/db
+    - name: gerrit-index
+      mountPath: /nfs/index
+    - name: gerrit-cache
+      mountPath: /nfs/cache
+  volumes:
+  - name: gerrit-etc
+    persistentVolumeClaim:
+      claimName: gerrit-etc
+      readOnly: false
+  - name: gerrit-git
+    persistentVolumeClaim:
+      claimName: gerrit-git
+      readOnly: false
+  - name: gerrit-db
+    persistentVolumeClaim:
+      claimName: gerrit-db
+      readOnly: false
+  - name: gerrit-index
+    persistentVolumeClaim:
+      claimName: gerrit-index
+      readOnly: false
+  - name: gerrit-cache
+    persistentVolumeClaim:
+      claimName: gerrit-cache
+      readOnly: false

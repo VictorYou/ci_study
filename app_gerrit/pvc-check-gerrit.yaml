@@ -1,0 +1,123 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-etc
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share-gerrit-etc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-git
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share-gerrit-git
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-db
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share-gerrit-db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-index
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share-gerrit-index
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-cache
+  namespace: ci
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: rook-nfs-share-gerrit-cache
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-gerrit
+  namespace: ci
+  labels:
+    app: pvc-gerrit
+spec:
+  containers:
+  - name: busybox-gerrit
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh", "-c", "--"]
+    args: ["chmod 777 /nfs/*; for dir in etc git db index cache; do rm -rf /nfs/$dir/*; done; for file in gerrit.config secure.config; do wget https://raw.githubusercontent.com/VictorYou/packer_study/build_ci/ci/app_gerrit/$file -O /nfs/etc/$file ; done; cat"]
+    tty: true
+    readinessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - "ls /nfs/etc/gerrit.config && ls /nfs/etc/secure.config"
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 100
+      successThreshold: 1
+      failureThreshold: 3
+    volumeMounts:
+    - name: gerrit-etc
+      mountPath: /nfs/etc
+    - name: gerrit-git
+      mountPath: /nfs/git
+    - name: gerrit-db
+      mountPath: /nfs/db
+    - name: gerrit-index
+      mountPath: /nfs/index
+    - name: gerrit-cache
+      mountPath: /nfs/cache
+  volumes:
+  - name: gerrit-etc
+    persistentVolumeClaim:
+      claimName: gerrit-etc
+      readOnly: false
+  - name: gerrit-git
+    persistentVolumeClaim:
+      claimName: gerrit-git
+      readOnly: false
+  - name: gerrit-db
+    persistentVolumeClaim:
+      claimName: gerrit-db
+      readOnly: false
+  - name: gerrit-index
+    persistentVolumeClaim:
+      claimName: gerrit-index
+      readOnly: false
+  - name: gerrit-cache
+    persistentVolumeClaim:
+      claimName: gerrit-cache
+      readOnly: false

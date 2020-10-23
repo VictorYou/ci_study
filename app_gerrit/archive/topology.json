@@ -1,0 +1,149 @@
+{
+    "clusters": [
+        {
+            "nodes": [
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.131.68.150"
+                            ],
+                            "storage": [
+                                "10.131.68.150"
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        {
+                            "name": "/dev/sdb",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdc",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdd",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sde",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdf",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdg",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdh",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdi",
+                            "destroydata": false
+                        }
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.131.70.125"
+                            ],
+                            "storage": [
+                                "10.131.70.125"
+                            ]
+                        },
+                        "zone": 2
+                    },
+                    "devices": [
+                        {
+                            "name": "/dev/sdb",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdc",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdd",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sde",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdf",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdg",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdh",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdi",
+                            "destroydata": false
+                        }
+                    ]
+                },
+                {
+                    "node": {
+                        "hostnames": {
+                            "manage": [
+                                "10.131.70.81"
+                            ],
+                            "storage": [
+                                "10.131.70.81"
+                            ]
+                        },
+                        "zone": 1
+                    },
+                    "devices": [
+                        {
+                            "name": "/dev/sdb",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdc",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdd",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sde",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdf",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdg",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdh",
+                            "destroydata": false
+                        },
+                        {
+                            "name": "/dev/sdi",
+                            "destroydata": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

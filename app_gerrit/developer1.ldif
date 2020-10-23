@@ -1,0 +1,9 @@
+dn: cn=developer1,dc=example,dc=org                   
+cn: Developer1
+givenname: developer1
+mail: developer1@localdomain
+objectClass: inetOrgPerson
+objectClass: top
+sn: Developer1
+uid: developer1
+userpassword: 123456
