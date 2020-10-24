@@ -31,7 +31,7 @@ spec:
         - name: gerrit-cache
           mountPath: /nfs/cache
       - name: busybox-gerrit-create-entry
-        image: osixia/openldap:1.4.0
+        image: viyou/busybox:1.0
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c", "--"]
         args: ["while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') = true ]; do sleep 5; done; for file in gerritadmin.ldif developer1.ldif; do  ldapadd -x -H ldap://myldap -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file; done"]
