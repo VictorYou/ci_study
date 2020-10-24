@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: 1.0.0
+description: gerrit server
+engine: 
+home: 
+icon: 
+keywords:
+maintainers:
+name: gerrit
+sources:
+version: 1.0.0
+

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myldap
+  namespace: ci
+  labels:
+    app: ldap
+spec:
+  type: NodePort
+  ports:
+  - name: openldap
+    port: 389
+    targetPort: 389
+    nodePort: 32389
+  - name: ldap-admin
+    port: 7443
+    targetPort: 443
+    nodePort: 32743
+  selector:
+    app: ldap
