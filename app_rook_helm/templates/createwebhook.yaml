@@ -1,0 +1,15 @@
+apiVersion: v1                             # start a pod and run a command
+kind: Pod
+metadata:
+  name: create-webhook
+  labels:
+    name: create-webhook
+spec:
+  restartPolicy: Never  
+  containers:
+  - name: create-webhook
+    image: viyou/busybox:1.0
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh", "-c", "--"]
+    args: ["while [ -z \"$(kubectl -n rook-nfs-system get secret -o jsonpath='{.items[*].metadata.name}' | grep rook-nfs-webhook-cert)\" ]; do echo 'creating webhook, ensure rook-nfs-webhook-cert is created'; kubectl apply -f https://raw.githubusercontent.com/rook/rook/release-1.4/cluster/examples/kubernetes/nfs/webhook.yaml; sleep 5; done"]
+    tty: true
