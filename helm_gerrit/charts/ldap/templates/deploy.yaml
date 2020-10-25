@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: ldap
   namespace: ci
@@ -13,17 +13,6 @@ spec:
       labels:
         app: ldap
     spec:
-      initContainers:
-      - name: busybox-ldap
-        image: busybox:1.28
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c", "--"]
-        args: ["rm -rf /nfs/var/*; rm -rf /nfs/etc/*"]
-        volumeMounts:
-        - name: ldap-var
-          mountPath: /nfs/var
-        - name: ldap-etc
-          mountPath: /nfs/etc
       containers:
       - name: openldap
         image: osixia/openldap:1.4.0
