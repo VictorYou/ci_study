@@ -16,6 +16,6 @@ spec:
     port: 7443
     targetPort: 443
     nodePort: 32743
-  ClusterIP: None
+  clusterIP: None
   selector:
     app: ldap
