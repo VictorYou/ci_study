@@ -9,7 +9,7 @@ spec:
   type: NodePort
   ports:
   - name: openldap
-    port: 7389
+    port: 389
     targetPort: 389
     nodePort: 32389
   - name: ldap-admin
