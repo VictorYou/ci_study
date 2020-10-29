@@ -4,7 +4,7 @@ metadata:
   name: ldap-var
   namespace: ci
 spec:
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-ldap-var
   accessModes:
   - ReadWriteMany
   resources:
@@ -17,7 +17,7 @@ metadata:
   name: ldap-etc
   namespace: ci
 spec:
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-ldap-etc
   accessModes:
   - ReadWriteMany
   resources:

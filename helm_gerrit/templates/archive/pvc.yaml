@@ -9,7 +9,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-gerrit-etc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -22,7 +22,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-gerrit-git
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -35,7 +35,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-gerrit-db
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -48,7 +48,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-gerrit-index
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -61,4 +61,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: cinder-sc-plugin
+  storageClassName: rook-nfs-share-gerrit-cache
