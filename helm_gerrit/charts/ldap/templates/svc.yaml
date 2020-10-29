@@ -15,7 +15,6 @@ spec:
   - name: ldap-admin
     port: 7443
     targetPort: 443
-    nodePort: 32743
-  clusterIP: None
+    nodePort: 32443
   selector:
     app: ldap

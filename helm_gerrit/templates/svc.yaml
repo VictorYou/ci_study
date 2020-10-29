@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gerrit
+  name: mygerrit
   namespace: ci
   labels:
     app: gerrit
@@ -16,6 +16,5 @@ spec:
     port: 80 
     targetPort: 8080
     nodePort: 32080
-  cluserIP: None
   selector:
     app: gerrit

@@ -4,6 +4,7 @@ metadata:
   name: ldap
   namespace: ci
 spec:
+  serviceName: myldap
   replicas: 1
   selector:
     matchLabels:

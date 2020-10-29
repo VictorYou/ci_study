@@ -5,6 +5,7 @@ metadata:
   namespace: ci
 spec:
   replicas: 1
+  serviceName: mygerrit
   selector:
     matchLabels:
       app: gerrit
