@@ -26,6 +26,6 @@ spec:
   - name: ssh
     port: 29418
     targetPort: 29418
-    nodePort: 29418
+    nodePort: 32418
   selector:
     app: gerrit

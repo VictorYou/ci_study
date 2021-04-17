@@ -6,12 +6,15 @@ metadata:
   labels:
     app: ldap
 spec:
+  type: NodePort
   ports:
   - name: openldap
     port: 389
     targetPort: 389
+    nodePort: 32389
   - name: ldap-admin
     port: 443
     targetPort: 443
+    nodePort: 32443
   selector:
     app: ldap

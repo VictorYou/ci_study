@@ -14,6 +14,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: "{{ .Values.Release.Name }}-gerrit"
+            name: "{{ .Release.Name }}-gerrit-http"
             port:
               number: 80
