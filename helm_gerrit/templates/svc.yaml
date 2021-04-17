@@ -6,15 +6,12 @@ metadata:
   labels:
     app: gerrit
 spec:
-  type: NodePort
   ports:
   - name: ssh
     port: 29418
     targetPort: 29418
-    nodePort: 32418
   - name: http
     port: 80 
     targetPort: 8080
-    nodePort: 32080
   selector:
     app: gerrit
