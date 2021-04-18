@@ -19,8 +19,24 @@ spec:
       - name: busybox-gerrit-prepare-pvc
         image: busybox:1.30
         imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c", "--"]
-        args: ["chmod 777 /nfs/*; for file in gerrit.config secure.config; do [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file ; done; for file in gerritadmin.ldif developer1.ldif; do [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file; done"]
+        env:
+        - name: ldap
+          value: "{{ .Release.Name }}-ldap"
+        - name: COMMAND_SCRIPT
+          value: |-
+chmod 777 /nfs/*
+for file in gerrit.config secure.config; do
+  [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
+done
+sed -ri 's|LDAPSERVER|$ldap|' /nfs/etc/gerrit.config
+for file in gerritadmin.ldif developer1.ldif; do
+  [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
+done
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - $(COMMAND_SCRIPT)
         volumeMounts:
         - name: gerrit-etc
           mountPath: /nfs/etc
@@ -38,8 +54,20 @@ spec:
         env:
         - name: ldap
           value: "{{ .Release.Name }}-ldap"
-        command: ["/bin/sh", "-c", "--"]
-        args: ["echo haha; while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do echo 'waiting for ldap to be ready'; sleep 5; done; for file in gerritadmin.ldif developer1.ldif; do ldapadd -x -H ldap://$ldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true; done"]
+        - name: COMMAND_SCRIPT
+          value: |-
+while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do
+  echo 'waiting for ldap to be ready'
+  sleep 5
+done
+for file in gerritadmin.ldif developer1.ldif; do
+  ldapadd -x -H ldap://$ldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true
+done
+        command:
+        - /bin/bash
+        args:
+        - -c
+        - $(COMMAND_SCRIPT)
         volumeMounts:
         - name: gerrit-etc
           mountPath: /nfs/etc
@@ -50,6 +78,8 @@ spec:
         env:
         - name: CANONICAL_WEB_URL
           value: http://localhost
+        - name: ldap
+          value: "{{ .Release.Name }}-ldap"
         ports:
         - containerPort: 29418
         - containerPort: 8080
