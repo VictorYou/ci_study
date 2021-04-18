@@ -24,16 +24,16 @@ spec:
           value: "{{ .Release.Name }}-ldap"
         - name: COMMAND_SCRIPT
           value: |-
-chmod 777 /nfs/*
-for file in gerrit.config secure.config; do
-  [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
-done
-sed -ri 's|LDAPSERVER|$ldap|' /nfs/etc/gerrit.config
-for file in gerritadmin.ldif developer1.ldif; do
-  [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
-done
+            chmod 777 /nfs/*
+            for file in gerrit.config secure.config; do
+              [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
+            done
+            sed -ri "s|LDAPSERVER|$ldap|" /nfs/etc/gerrit.config
+            for file in gerritadmin.ldif developer1.ldif; do
+              [ -e /nfs/etc/$file ] || wget https://raw.githubusercontent.com/VictorYou/ci_study/master/app_gerrit/$file -O /nfs/etc/$file
+            done
         command:
-        - /bin/bash
+        - sh
         args:
         - -c
         - $(COMMAND_SCRIPT)
@@ -56,15 +56,15 @@ done
           value: "{{ .Release.Name }}-ldap"
         - name: COMMAND_SCRIPT
           value: |-
-while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do
-  echo 'waiting for ldap to be ready'
-  sleep 5
-done
-for file in gerritadmin.ldif developer1.ldif; do
-  ldapadd -x -H ldap://$ldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true
-done
+            while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do
+              echo 'waiting for ldap to be ready'
+              sleep 5
+            done
+            for file in gerritadmin.ldif developer1.ldif; do
+              ldapadd -x -H ldap://$ldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true
+            done
         command:
-        - /bin/bash
+        - sh
         args:
         - -c
         - $(COMMAND_SCRIPT)
