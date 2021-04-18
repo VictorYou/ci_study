@@ -14,6 +14,7 @@ spec:
       labels:
         app: gerrit
     spec:
+      serviceAccountName: "{{ .Release.Name }}-gerrit"
       initContainers:
       - name: busybox-gerrit-prepare-pvc
         image: busybox:1.30
@@ -34,8 +35,11 @@ spec:
       - name: busybox-gerrit-create-entry
         image: viyou/busybox:1.0
         imagePullPolicy: IfNotPresent
+        env:
+        - name: ldap
+          value: "{{ .Release.Name }}-ldap"
         command: ["/bin/sh", "-c", "--"]
-        args: ["while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') = true ]; do sleep 5; done; for file in gerritadmin.ldif developer1.ldif; do ldapadd -x -H ldap://myldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true; done"]
+        args: ["echo haha; while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do echo 'waiting for ldap to be ready'; sleep 5; done; for file in gerritadmin.ldif developer1.ldif; do ldapadd -x -H ldap://$ldap:389 -D cn=admin,dc=example,dc=org -w secret -f /nfs/etc/$file || true; done"]
         volumeMounts:
         - name: gerrit-etc
           mountPath: /nfs/etc

@@ -1,0 +1,15 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: ci
+  name: "{{ .Release.Name }}-gerrit"
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "persistentvolumeclaims", "pods", "secrets", "services", "serviceaccounts", "volumes"]
+  verbs: ["get", "watch", "list", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "watch", "list", "create", "update", "patch", "delete"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["get", "watch", "list", "create", "update", "patch", "delete"]
