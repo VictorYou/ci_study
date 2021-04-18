@@ -56,7 +56,7 @@ spec:
           value: "{{ .Release.Name }}-ldap"
         - name: COMMAND_SCRIPT
           value: |-
-            while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name==\"openldap\")].ready}') != true ]; do
+            while [ $(kubectl -n ci get po --selector=app=ldap -o jsonpath='{.items[0].status.containerStatuses[?(@.name=="openldap")].ready}') != true ]; do
               echo 'waiting for ldap to be ready'
               sleep 5
             done
